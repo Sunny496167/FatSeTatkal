@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Jhatkal – Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════ PREVIEW SHELL ═══════════════ */
+body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'DM Sans',sans-serif;}
+.preview-frame{border-radius:20px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 40px 80px rgba(0,0,0,.8);}
+
+/* ═══════════════ JHATKAL APP CSS ═══════════════ */
+:root{
+  --bg-deep:#06080f;--bg-mid:#0c1120;
+  --glass-bg:rgba(255,255,255,0.045);--glass-border:rgba(255,255,255,0.09);--glass-hover:rgba(255,255,255,0.075);
+  --blue-glow:#3d7fff;--purple-glow:#7c3aed;--teal-accent:#00e5c4;--pink-accent:#f43f8e;
+  --text-primary:#eef2ff;--text-secondary:#9199b4;--text-muted:#4e567a;
+  --success:#22d37a;--warning:#f59e0b;--danger:#ef4444;
+  --bar-green:#22d37a;--bar-yellow:#f59e0b;--bar-red:#ef4444;
+  --r-sm:8px;--r-md:12px;--r-lg:18px;--r-xl:24px;
+  --shadow-glow-blue:0 0 24px rgba(61,127,255,0.35);--shadow-glow-purple:0 0 24px rgba(124,58,237,0.35);--shadow-card:0 4px 24px rgba(0,0,0,0.45);
+  --popup-w:390px;--header-pad:18px;--section-gap:14px;
+  --font-display:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;}
+
+.app-shell{position:relative;width:var(--popup-w);height:640px;display:flex;flex-direction:column;overflow:hidden;color:var(--text-primary);font-family:var(--font-body);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(ellipse 70% 50% at 20% 0%,rgba(61,127,255,0.18) 0%,transparent 70%),radial-gradient(ellipse 60% 40% at 85% 100%,rgba(124,58,237,0.20) 0%,transparent 65%),linear-gradient(160deg,#07091a 0%,#090d1f 50%,#0a0614 100%);}
+
+.noise-overlay{pointer-events:none;position:absolute;inset:0;z-index:0;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");}
+
+.orb{pointer-events:none;position:absolute;border-radius:50%;filter:blur(60px);opacity:.25;animation:orbFloat 8s ease-in-out infinite;}
+.orb-1{width:220px;height:220px;top:-60px;left:-60px;background:radial-gradient(circle,var(--blue-glow),transparent 70%);animation-delay:0s;}
+.orb-2{width:180px;height:180px;bottom:-50px;right:-40px;background:radial-gradient(circle,var(--purple-glow),transparent 70%);animation-delay:-4s;}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(18px) scale(1.06);}}
+
+/* HEADER */
+.app-header{position:relative;z-index:10;padding:16px var(--header-pad) 12px;border-bottom:1px solid var(--glass-border);background:rgba(255,255,255,0.025);backdrop-filter:blur(12px);}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-icon{font-size:22px;filter:drop-shadow(0 0 8px rgba(255,210,0,0.8));animation:zap 2.5s ease-in-out infinite;}
+@keyframes zap{0%,100%{filter:drop-shadow(0 0 6px rgba(255,210,0,0.8));transform:scale(1);}50%{filter:drop-shadow(0 0 14px rgba(255,200,0,1));transform:scale(1.08);}}
+.brand-name{font-family:var(--font-display);font-size:20px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,#fff 0%,#a5c4ff 60%,var(--teal-accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.brand-sub{font-size:10.5px;color:var(--text-secondary);margin-top:1px;letter-spacing:.2px;}
+
+.ac-toggle-wrap{display:flex;align-items:center;gap:7px;}
+.toggle-label{font-size:10.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;}
+.ac-toggle{position:relative;width:42px;height:22px;background:rgba(255,255,255,0.08);border:1px solid var(--glass-border);border-radius:99px;cursor:pointer;transition:background .3s,border-color .3s,box-shadow .3s;outline:none;flex-shrink:0;}
+.ac-toggle.on{background:rgba(61,127,255,0.3);border-color:var(--blue-glow);box-shadow:0 0 10px rgba(61,127,255,0.4);}
+.toggle-knob{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--text-secondary);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s;}
+.ac-toggle.on .toggle-knob{transform:translateX(20px);background:var(--blue-glow);}
+
+.timer-block{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:var(--r-md);padding:10px 14px 9px;}
+.timer-labels{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px;}
+.timer-title{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--text-secondary);}
+.timer-live{font-family:var(--font-display);font-size:19px;font-weight:700;letter-spacing:2px;color:var(--text-primary);font-variant-numeric:tabular-nums;}
+.timer-bar-wrap{width:100%;height:5px;background:rgba(255,255,255,0.07);border-radius:99px;overflow:hidden;margin-bottom:6px;}
+.timer-bar{height:100%;border-radius:99px;background:var(--bar-green);transition:width 1s linear,background 1s;box-shadow:0 0 8px currentColor;}
+.timer-hint{font-size:9.5px;color:var(--text-muted);letter-spacing:.2px;}
+
+/* STATUS */
+.status-bar{position:relative;z-index:10;display:flex;align-items:center;gap:7px;padding:7px var(--header-pad);background:rgba(0,0,0,0.2);border-bottom:1px solid var(--glass-border);}
+.status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;background:var(--text-muted);transition:background .4s;}
+.status-dot.online{background:var(--success);box-shadow:0 0 6px var(--success);animation:pulse 2s infinite;}
+.status-dot.offline{background:var(--warning);box-shadow:0 0 6px var(--warning);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.status-text{font-size:11px;color:var(--text-secondary);flex:1;}
+.speed-badge{font-size:10px;font-weight:700;background:rgba(61,127,255,0.15);border:1px solid rgba(61,127,255,0.3);color:var(--blue-glow);border-radius:99px;padding:2px 8px;letter-spacing:.2px;}
+
+/* TABS */
+.tab-bar{position:relative;z-index:10;display:flex;align-items:center;gap:4px;padding:8px 10px 0;background:var(--bg-mid);border-bottom:1px solid var(--glass-border);}
+.tab-btn{position:relative;z-index:2;flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border:none;border-radius:var(--r-sm) var(--r-sm) 0 0;background:transparent;color:var(--text-muted);font-family:var(--font-body);font-size:12.5px;font-weight:600;cursor:pointer;transition:color .25s;}
+.tab-btn.active{color:var(--text-primary);}
+.tab-btn:hover:not(.active){color:var(--text-secondary);}
+.tab-slider{position:absolute;bottom:0;height:2px;border-radius:99px;background:linear-gradient(90deg,var(--blue-glow),var(--purple-glow));box-shadow:0 0 8px rgba(61,127,255,0.6);transition:left .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);}
+
+/* CONTENT */
+.content-area{flex:1;overflow-y:auto;padding:14px 12px 4px;scroll-behavior:smooth;position:relative;z-index:5;}
+.content-area::-webkit-scrollbar{width:4px;}
+.content-area::-webkit-scrollbar-track{background:transparent;}
+.content-area::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.12);border-radius:99px;}
+.tab-panel{display:none;animation:panelIn .25s ease;}
+.tab-panel.active{display:block;}
+@keyframes panelIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* GLASS CARD */
+.glass-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r-lg);padding:14px;backdrop-filter:blur(8px);box-shadow:var(--shadow-card);margin-bottom:var(--section-gap);transition:border-color .25s,box-shadow .25s;}
+.glass-card:hover{border-color:rgba(255,255,255,0.14);box-shadow:var(--shadow-card),0 0 0 1px rgba(61,127,255,0.1);}
+.card-title{font-family:var(--font-display);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);margin-bottom:12px;}
+
+/* FIELDS */
+.field-group{margin-bottom:10px;position:relative;}
+.field-label{display:block;font-size:10.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;}
+.field-input{width:100%;padding:9px 11px;background:rgba(255,255,255,0.055);border:1px solid var(--glass-border);border-radius:var(--r-sm);color:var(--text-primary);font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;}
+.field-input::placeholder{color:var(--text-muted);}
+.field-input:focus{border-color:var(--blue-glow);box-shadow:0 0 0 3px rgba(61,127,255,0.15);background:rgba(61,127,255,0.05);}
+.field-input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.6) sepia(1) saturate(4) hue-rotate(200deg);cursor:pointer;opacity:.7;}
+select.field-input{cursor:pointer;}
+select.field-input option{background:#0f1628;color:var(--text-primary);}
+
+.field-row{display:grid;grid-template-columns:1fr 28px 1fr;gap:6px;align-items:end;}
+.field-row .field-group{margin-bottom:0;}
+.swap-btn-wrap{display:flex;align-items:flex-end;padding-bottom:1px;}
+.swap-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--glass-border);background:rgba(255,255,255,0.06);color:var(--text-secondary);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s,transform .25s;}
+.swap-btn:hover{background:rgba(61,127,255,0.2);color:var(--blue-glow);transform:rotate(180deg);}
+
+.autocomplete-wrap{position:relative;}
+.autocomplete-list{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:100;list-style:none;background:#111828;border:1px solid rgba(61,127,255,0.3);border-radius:var(--r-md);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.5);max-height:140px;overflow-y:auto;display:none;}
+.autocomplete-list.show{display:block;animation:panelIn .15s ease;}
+.autocomplete-list li{padding:8px 11px;cursor:pointer;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
+.autocomplete-list li:last-child{border-bottom:none;}
+.autocomplete-list li:hover{background:rgba(61,127,255,0.15);}
+.autocomplete-list li strong{color:var(--blue-glow);font-weight:700;}
+.autocomplete-list li span{color:var(--text-secondary);font-size:10.5px;margin-left:5px;}
+
+.primary-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:9px 14px;background:linear-gradient(135deg,rgba(61,127,255,0.25),rgba(124,58,237,0.25));border:1px solid rgba(61,127,255,0.4);border-radius:var(--r-sm);color:var(--text-primary);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;margin-top:12px;transition:background .25s,border-color .25s,box-shadow .25s,transform .15s;}
+.primary-btn:hover{background:linear-gradient(135deg,rgba(61,127,255,0.4),rgba(124,58,237,0.35));border-color:var(--blue-glow);box-shadow:var(--shadow-glow-blue);}
+.primary-btn:active{transform:scale(.98);}
+
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;margin-top:2px;}
+.section-title{font-family:var(--font-display);font-size:12.5px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.8px;}
+.badge{font-size:10px;font-weight:700;background:rgba(61,127,255,0.2);border:1px solid rgba(61,127,255,0.35);color:var(--blue-glow);border-radius:99px;padding:1px 7px;}
+
+.empty-state{text-align:center;padding:24px 16px;border:1px dashed rgba(255,255,255,0.1);border-radius:var(--r-lg);}
+.empty-icon{font-size:26px;margin-bottom:8px;}
+.empty-title{font-size:13px;font-weight:600;color:var(--text-secondary);margin-bottom:3px;}
+.empty-sub{font-size:11px;color:var(--text-muted);}
+
+/* ROUTE CARDS */
+.route-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r-md);padding:11px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s,border-color .2s,transform .15s;animation:panelIn .2s ease;}
+.route-card:hover{background:var(--glass-hover);border-color:rgba(61,127,255,0.35);transform:translateY(-1px);}
+.route-card.selected{border-color:var(--blue-glow);background:rgba(61,127,255,0.08);box-shadow:0 0 0 1px rgba(61,127,255,0.25);}
+.route-arrow{font-size:10px;color:var(--text-muted);flex-shrink:0;}
+.route-stations{flex:1;display:flex;align-items:center;gap:8px;}
+.route-code{font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--text-primary);}
+.route-meta{font-size:10.5px;color:var(--text-muted);}
+.route-class-badge{font-size:9.5px;font-weight:700;background:rgba(0,229,196,0.12);border:1px solid rgba(0,229,196,0.25);color:var(--teal-accent);border-radius:99px;padding:2px 7px;flex-shrink:0;}
+.route-del-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.07);color:var(--danger);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,border-color .2s;line-height:1;}
+.route-del-btn:hover{background:rgba(239,68,68,0.2);border-color:var(--danger);}
+
+/* PASSENGERS */
+.template-row{display:flex;gap:7px;margin-bottom:12px;}
+.template-chip{flex:1;padding:7px 4px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:var(--r-sm);color:var(--text-secondary);font-family:var(--font-body);font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:background .2s,border-color .2s,color .2s;}
+.template-chip.active{background:rgba(124,58,237,0.2);border-color:var(--purple-glow);color:#c4b5fd;}
+.template-chip:hover:not(.active){background:rgba(255,255,255,0.07);color:var(--text-primary);}
+
+.passenger-card{background:var(--glass-bg);border:1px solid var(--glass-border);border-radius:var(--r-md);padding:12px;margin-bottom:10px;animation:panelIn .25s ease;position:relative;}
+.passenger-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.passenger-num{font-family:var(--font-display);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);}
+.passenger-del-btn{width:22px;height:22px;border-radius:50%;border:1px solid rgba(239,68,68,0.2);background:rgba(239,68,68,0.07);color:var(--danger);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s;line-height:1;}
+.passenger-del-btn:hover{background:rgba(239,68,68,0.2);border-color:var(--danger);}
+.pax-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pax-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.passenger-card .field-group{margin-bottom:0;}
+.passenger-card .field-input{padding:7px 9px;font-size:12px;}
+.passenger-card .field-label{font-size:9.5px;}
+
+.add-passenger-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(255,255,255,0.03);border:1.5px dashed rgba(255,255,255,0.12);border-radius:var(--r-md);color:var(--text-secondary);font-family:var(--font-body);font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:10px;transition:background .2s,border-color .2s,color .2s;}
+.add-passenger-btn:hover{background:rgba(61,127,255,0.08);border-color:rgba(61,127,255,0.4);color:var(--blue-glow);}
+.add-passenger-btn:disabled{opacity:.35;cursor:not-allowed;}
+.add-icon{font-size:16px;line-height:1;}
+.count-pill{font-size:10px;font-weight:700;background:rgba(255,255,255,0.07);border-radius:99px;padding:1px 7px;color:var(--text-muted);margin-left:auto;}
+
+/* CTA */
+.cta-wrap{position:relative;z-index:10;padding:10px 12px 6px;background:rgba(6,8,15,0.6);border-top:1px solid var(--glass-border);backdrop-filter:blur(8px);}
+.cta-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 20px;background:linear-gradient(135deg,#1d4ed8 0%,#4f46e5 50%,#7c3aed 100%);border:none;border-radius:var(--r-lg);color:#fff;font-family:var(--font-display);font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.2px;position:relative;overflow:hidden;transition:transform .18s,box-shadow .25s;box-shadow:0 4px 20px rgba(79,70,229,0.45),0 0 0 1px rgba(255,255,255,0.1) inset;}
+.cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent);transform:translateX(-100%);transition:transform .6s;}
+.cta-btn:hover::before{transform:translateX(100%);}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(79,70,229,0.6),0 0 0 1px rgba(255,255,255,0.1) inset;}
+.cta-btn:active{transform:scale(.98) translateY(0);}
+.cta-icon{font-size:18px;animation:zap 1.5s ease-in-out infinite;}
+.cta-text em{font-style:normal;opacity:.75;font-size:12px;}
+.cta-sub{text-align:center;font-size:10.5px;color:var(--text-muted);margin-top:5px;}
+
+/* FOOTER */
+.app-footer{position:relative;z-index:10;display:flex;align-items:flex-start;gap:6px;padding:6px 14px 10px;background:rgba(0,0,0,0.3);border-top:1px solid rgba(255,255,255,0.04);font-size:9.5px;color:var(--text-muted);line-height:1.5;}
+.app-footer svg{flex-shrink:0;margin-top:1px;opacity:.5;}
+
+/* TOAST */
+.toast{position:absolute;bottom:64px;left:50%;transform:translateX(-50%) translateY(12px);background:rgba(20,28,50,0.95);border:1px solid rgba(61,127,255,0.35);border-radius:var(--r-md);padding:8px 16px;font-size:12px;color:var(--text-primary);font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:9999;backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,0.5);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.autocomplete-list::-webkit-scrollbar{width:3px;}
+.autocomplete-list::-webkit-scrollbar-thumb{background:rgba(61,127,255,0.4);border-radius:99px;}
+</style>
+</head>
+<body>
+<div class="preview-frame">
+<div class="app-shell">
+  <div class="noise-overlay"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand">
+        <span class="brand-icon">⚡</span>
+        <div class="brand-text">
+          <h1 class="brand-name">Jhatkal</h1>
+          <p class="brand-sub">Tatkal helper for IRCTC</p>
+        </div>
+      </div>
+      <div class="ac-toggle-wrap">
+        <span class="toggle-label">Non-AC</span>
+        <button class="ac-toggle" id="acToggle" aria-label="Toggle AC" role="switch" aria-checked="false">
+          <span class="toggle-knob"></span>
+        </button>
+        <span class="toggle-label" id="acLabel">AC</span>
+      </div>
+    </div>
+    <div class="timer-block">
+      <div class="timer-labels">
+        <span class="timer-title">Tatkal Opens In</span>
+        <span class="timer-live" id="timerDisplay">--:--:--</span>
+      </div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:75%"></div></div>
+      <p class="timer-hint" id="timerHint">AC opens at 10:00 AM · Non-AC at 11:00 AM</p>
+    </div>
+  </header>
+
+  <!-- STATUS -->
+  <div class="status-bar">
+    <span class="status-dot offline" id="statusDot"></span>
+    <span class="status-text" id="statusText">Open IRCTC booking page →</span>
+    <span class="speed-badge">⚡ &lt;1s fill</span>
+  </div>
+
+  <!-- TABS -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="routes">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      Routes
+    </button>
+    <button class="tab-btn" data-tab="passengers">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+      Passengers
+    </button>
+    <div class="tab-slider" id="tabSlider"></div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- ROUTES PANEL -->
+    <section class="tab-panel active" id="panel-routes">
+      <div class="glass-card form-card">
+        <h3 class="card-title">Journey Details</h3>
+        <div class="field-group">
+          <label class="field-label">Travel Date</label>
+          <input type="date" class="field-input" id="travelDate"/>
+        </div>
+        <div class="field-row">
+          <div class="field-group autocomplete-wrap">
+            <label class="field-label">From Station</label>
+            <input type="text" class="field-input" id="fromStation" placeholder="e.g. NDLS" autocomplete="off" maxlength="5"/>
+            <ul class="autocomplete-list" id="fromList"></ul>
+          </div>
+          <div class="swap-btn-wrap">
+            <button class="swap-btn" id="swapBtn" title="Swap">⇌</button>
+          </div>
+          <div class="field-group autocomplete-wrap">
+            <label class="field-label">To Station</label>
+            <input type="text" class="field-input" id="toStation" placeholder="e.g. CSTM" autocomplete="off" maxlength="5"/>
+            <ul class="autocomplete-list" id="toList"></ul>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Train Class</label>
+          <select class="field-input" id="trainClass">
+            <option value="1A">1A – First AC</option>
+            <option value="2A">2A – Second AC</option>
+            <option value="3A" selected>3A – Third AC</option>
+            <option value="3E">3E – Third AC Economy</option>
+            <option value="SL">SL – Sleeper</option>
+            <option value="CC">CC – Chair Car</option>
+            <option value="2S">2S – Second Sitting</option>
+          </select>
+        </div>
+        <button class="primary-btn" id="saveRouteBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save Route
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h3 class="section-title">Saved Routes</h3>
+        <span class="route-count badge" id="routeCount">0</span>
+      </div>
+      <div id="savedRoutesList">
+        <div class="empty-state" id="routesEmptyState">
+          <div class="empty-icon">🛤️</div>
+          <p class="empty-title">No routes saved yet</p>
+          <p class="empty-sub">Add your frequent journey above</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASSENGERS PANEL -->
+    <section class="tab-panel" id="panel-passengers">
+      <div class="template-row">
+        <button class="template-chip active" data-template="solo">🧍 Solo</button>
+        <button class="template-chip" data-template="family">👨‍👩‍👧 Family</button>
+        <button class="template-chip" data-template="friends">👥 Friends</button>
+      </div>
+      <div id="passengerList"></div>
+      <button class="add-passenger-btn" id="addPassengerBtn">
+        <span class="add-icon">＋</span>
+        Add Passenger
+        <span class="count-pill" id="paxCount">0 / 6</span>
+      </button>
+    </section>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <button class="cta-btn" id="autofillBtn">
+      <span class="cta-icon">⚡</span>
+      <span class="cta-text">Autofill Now <em>(Tatkal Ready)</em></span>
+    </button>
+    <p class="cta-sub">Fills all details in under 1 second</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    This tool only autofills data on user action. No automation of captcha, login, or payment.
+  </footer>
+
+  <div class="toast" id="toast"></div>
+</div>
+</div>
+
+<script>
+'use strict';
+
+const STATIONS=[{code:'NDLS',name:'New Delhi'},{code:'NZM',name:'Hazrat Nizamuddin'},{code:'DEE',name:'Delhi Sarai Rohilla'},{code:'CSTM',name:'Mumbai CSMT'},{code:'BCT',name:'Mumbai Central'},{code:'MAS',name:'Chennai Central'},{code:'SBC',name:'KSR Bengaluru'},{code:'HWH',name:'Howrah Junction'},{code:'PUNE',name:'Pune Junction'},{code:'ADI',name:'Ahmedabad Junction'},{code:'JP',name:'Jaipur Junction'},{code:'LKO',name:'Lucknow Charbagh'},{code:'CNB',name:'Kanpur Central'},{code:'PNBE',name:'Patna Junction'},{code:'GHY',name:'Guwahati'},{code:'BBS',name:'Bhubaneswar'},{code:'HYB',name:'Hyderabad Deccan'},{code:'SC',name:'Secunderabad Jn'},{code:'ERS',name:'Ernakulam Jn'},{code:'TVC',name:'Thiruvananthapuram'},{code:'AGC',name:'Agra Cantt'},{code:'VSKP',name:'Visakhapatnam'},{code:'NGP',name:'Nagpur Jn'},{code:'R',name:'Raipur Jn'},{code:'BPL',name:'Bhopal Jn'}];
+
+const state={acMode:false,savedRoutes:[],passengers:[],selectedRouteIdx:-1};
+const $=id=>document.getElementById(id);
+const $$=sel=>document.querySelectorAll(sel);
+
+// ─── Load storage ─────────────────────────────────────────────────────────────
+try{const r=localStorage.getItem('jhatkal_routes');if(r)state.savedRoutes=JSON.parse(r);}catch(e){}
+try{const p=localStorage.getItem('jhatkal_passengers');if(p)state.passengers=JSON.parse(p);}catch(e){}
+try{const a=localStorage.getItem('jhatkal_ac');if(a!==null)state.acMode=JSON.parse(a);}catch(e){}
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+const tabBtns=$$('.tab-btn');
+const slider=$('tabSlider');
+function moveSlider(btn){const bar=btn.closest('.tab-bar').getBoundingClientRect();const b=btn.getBoundingClientRect();slider.style.left=(b.left-bar.left)+'px';slider.style.width=b.width+'px';}
+moveSlider(document.querySelector('.tab-btn.active'));
+tabBtns.forEach(btn=>btn.addEventListener('click',()=>{tabBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');$$('.tab-panel').forEach(p=>p.classList.remove('active'));$('panel-'+btn.dataset.tab).classList.add('active');moveSlider(btn);}));
+
+// ─── AC Toggle ───────────────────────────────────────────────────────────────
+function applyAC(){const t=$('acToggle');state.acMode?t.classList.add('on'):t.classList.remove('on');$('acLabel').style.color=state.acMode?'#6ea6ff':'';}
+$('acToggle').addEventListener('click',()=>{state.acMode=!state.acMode;applyAC();localStorage.setItem('jhatkal_ac',JSON.stringify(state.acMode));$('timerHint').textContent=state.acMode?'AC opens at 10:00 AM · Non-AC at 11:00 AM':'Non-AC opens at 11:00 AM · AC at 10:00 AM';});
+applyAC();
+
+// ─── Timer ────────────────────────────────────────────────────────────────────
+function getTatkalOpen(ac){const now=new Date();const t=new Date(now);t.setSeconds(0);t.setMilliseconds(0);t.setHours(ac?10:11,0,0,0);if(now>=t)t.setDate(t.getDate()+1);return t;}
+function updateTimer(){const open=getTatkalOpen(state.acMode);const diff=Math.max(0,Math.floor((open-new Date())/1000));const h=Math.floor(diff/3600),m=Math.floor((diff%3600)/60),s=diff%60;$('timerDisplay').textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');const bar=$('timerBar');const pct=Math.max(2,Math.round((1-diff/(24*3600))*100));bar.style.width=pct+'%';if(diff>7200){bar.style.background='var(--bar-green)';bar.style.boxShadow='0 0 8px var(--bar-green)';}else if(diff>1800){bar.style.background='var(--bar-yellow)';bar.style.boxShadow='0 0 8px var(--bar-yellow)';}else{bar.style.background='var(--bar-red)';bar.style.boxShadow='0 0 8px var(--bar-red)';}}
+updateTimer();setInterval(updateTimer,1000);
+
+// ─── Default date ─────────────────────────────────────────────────────────────
+const tmr=new Date();tmr.setDate(tmr.getDate()+1);$('travelDate').value=tmr.toISOString().split('T')[0];$('travelDate').min=new Date().toISOString().split('T')[0];
+
+// ─── Autocomplete ─────────────────────────────────────────────────────────────
+function initAC(inputId,listId){const inp=$(inputId),lst=$(listId);inp.addEventListener('input',()=>{const q=inp.value.trim().toUpperCase();if(q.length<1){lst.classList.remove('show');return;}const m=STATIONS.filter(s=>s.code.startsWith(q)||s.name.toUpperCase().includes(q)).slice(0,6);if(!m.length){lst.classList.remove('show');return;}lst.innerHTML=m.map(s=>`<li data-code="${s.code}"><strong>${s.code}</strong><span>${s.name}</span></li>`).join('');lst.classList.add('show');});lst.addEventListener('click',e=>{const li=e.target.closest('li');if(!li)return;inp.value=li.dataset.code;lst.classList.remove('show');});document.addEventListener('click',e=>{if(!inp.contains(e.target)&&!lst.contains(e.target))lst.classList.remove('show');});}
+initAC('fromStation','fromList');initAC('toStation','toList');
+
+// ─── Swap ─────────────────────────────────────────────────────────────────────
+$('swapBtn').addEventListener('click',()=>{const a=$('fromStation').value,b=$('toStation').value;$('fromStation').value=b;$('toStation').value=a;});
+
+// ─── Save Route ───────────────────────────────────────────────────────────────
+$('saveRouteBtn').addEventListener('click',()=>{const from=$('fromStation').value.trim().toUpperCase(),to=$('toStation').value.trim().toUpperCase(),date=$('travelDate').value,cls=$('trainClass').value;if(!from||!to){showToast('⚠️ Enter both station codes');return;}if(from===to){showToast('⚠️ From & To cannot be same');return;}if(state.savedRoutes.find(r=>r.from===from&&r.to===to&&r.cls===cls)){showToast('Route already saved!');return;}state.savedRoutes.unshift({from,to,date,cls,id:Date.now()});localStorage.setItem('jhatkal_routes',JSON.stringify(state.savedRoutes));renderRoutes();showToast('✅ Route saved!');});
+
+function renderRoutes(){const c=$('savedRoutesList'),e=$('routesEmptyState');$('routeCount').textContent=state.savedRoutes.length;if(!state.savedRoutes.length){c.innerHTML='';c.appendChild(e);return;}c.innerHTML=state.savedRoutes.map((r,i)=>`<div class="route-card${state.selectedRouteIdx===i?' selected':''}" data-idx="${i}"><div class="route-stations"><span class="route-code">${r.from}</span><span class="route-arrow">→</span><span class="route-code">${r.to}</span><div><div class="route-meta">${r.date||'No date'}</div></div></div><span class="route-class-badge">${r.cls}</span><button class="route-del-btn" data-del="${i}" title="Remove">×</button></div>`).join('');c.querySelectorAll('.route-card').forEach(card=>{card.addEventListener('click',e=>{if(e.target.dataset.del!==undefined)return;const idx=+card.dataset.idx;state.selectedRouteIdx=state.selectedRouteIdx===idx?-1:idx;if(state.selectedRouteIdx>=0){const r=state.savedRoutes[idx];$('fromStation').value=r.from;$('toStation').value=r.to;$('travelDate').value=r.date||'';$('trainClass').value=r.cls;showToast('Route loaded!');}renderRoutes();});});c.querySelectorAll('.route-del-btn').forEach(btn=>{btn.addEventListener('click',e=>{e.stopPropagation();const idx=+btn.dataset.del;state.savedRoutes.splice(idx,1);if(state.selectedRouteIdx===idx)state.selectedRouteIdx=-1;localStorage.setItem('jhatkal_routes',JSON.stringify(state.savedRoutes));renderRoutes();showToast('Route removed');});});}
+renderRoutes();
+
+// ─── Passengers ───────────────────────────────────────────────────────────────
+const BERTH=['No Preference','Lower','Middle','Upper','Side Lower','Side Upper'];
+const GENDER=['Male','Female','Transgender'];
+const FOOD=['No Preference','Veg','Non-Veg','Jain'];
+const MAX=6;
+
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function addPax(data){if(state.passengers.length>=MAX)return;state.passengers.push({id:Date.now()+Math.random(),...data});}
+
+function renderPax(){const list=$('passengerList');$('paxCount').textContent=`${state.passengers.length} / ${MAX}`;$('addPassengerBtn').disabled=state.passengers.length>=MAX;if(!state.passengers.length){list.innerHTML=`<div class="empty-state" style="margin-bottom:12px"><div class="empty-icon">🧳</div><p class="empty-title">No passengers added</p><p class="empty-sub">Pick a template or add manually</p></div>`;return;}
+list.innerHTML=state.passengers.map((p,i)=>`<div class="passenger-card" data-paxid="${p.id}"><div class="passenger-card-header"><span class="passenger-num">Passenger ${i+1}</span><button class="passenger-del-btn" data-paxdel="${i}">×</button></div><div class="field-group" style="margin-bottom:8px"><label class="field-label">Full Name</label><input type="text" class="field-input pax-name" data-idx="${i}" value="${escH(p.name)}" placeholder="As on ID card"/></div><div class="pax-grid-3" style="margin-bottom:8px"><div class="field-group"><label class="field-label">Age</label><input type="number" class="field-input pax-age" data-idx="${i}" value="${escH(String(p.age))}" placeholder="--" min="1" max="125"/></div><div class="field-group"><label class="field-label">Gender</label><select class="field-input pax-gender" data-idx="${i}">${GENDER.map(g=>`<option${p.gender===g?' selected':''}>${g}</option>`).join('')}</select></div><div class="field-group"><label class="field-label">Food</label><select class="field-input pax-food" data-idx="${i}">${FOOD.map(f=>`<option${p.food===f?' selected':''}>${f}</option>`).join('')}</select></div></div><div class="field-group"><label class="field-label">Berth Preference</label><select class="field-input pax-berth" data-idx="${i}">${BERTH.map(b=>`<option${p.berth===b?' selected':''}>${b}</option>`).join('')}</select></div></div>`).join('');
+list.querySelectorAll('.pax-name').forEach(el=>el.addEventListener('input',e=>{state.passengers[+e.target.dataset.idx].name=e.target.value;localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));
+list.querySelectorAll('.pax-age').forEach(el=>el.addEventListener('input',e=>{state.passengers[+e.target.dataset.idx].age=e.target.value;localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));
+list.querySelectorAll('.pax-gender').forEach(el=>el.addEventListener('change',e=>{state.passengers[+e.target.dataset.idx].gender=e.target.value;localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));
+list.querySelectorAll('.pax-berth').forEach(el=>el.addEventListener('change',e=>{state.passengers[+e.target.dataset.idx].berth=e.target.value;localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));
+list.querySelectorAll('.pax-food').forEach(el=>el.addEventListener('change',e=>{state.passengers[+e.target.dataset.idx].food=e.target.value;localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));
+list.querySelectorAll('.passenger-del-btn').forEach(btn=>btn.addEventListener('click',()=>{state.passengers.splice(+btn.dataset.paxdel,1);renderPax();localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}));}
+
+function applyTemplate(tpl){state.passengers=[];if(tpl==='solo'){addPax({name:'',age:'',gender:'Male',berth:'No Preference',food:'No Preference'});}else if(tpl==='family'){addPax({name:'',age:'',gender:'Male',berth:'Lower',food:'No Preference'});addPax({name:'',age:'',gender:'Female',berth:'Lower',food:'No Preference'});addPax({name:'',age:'12',gender:'Male',berth:'Middle',food:'No Preference'});}else if(tpl==='friends'){for(let i=0;i<3;i++)addPax({name:'',age:'',gender:'Male',berth:'No Preference',food:'No Preference'});}renderPax();localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));}
+
+$$('.template-chip').forEach(c=>c.addEventListener('click',()=>{$$('.template-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');applyTemplate(c.dataset.template);}));
+$('addPassengerBtn').addEventListener('click',()=>{if(state.passengers.length>=MAX){showToast('Maximum 6 passengers allowed');return;}addPax({name:'',age:'',gender:'Male',berth:'No Preference',food:'No Preference'});renderPax();localStorage.setItem('jhatkal_passengers',JSON.stringify(state.passengers));});
+renderPax();
+
+// ─── Autofill CTA ─────────────────────────────────────────────────────────────
+$('autofillBtn').addEventListener('click',()=>{if(!state.passengers.length){showToast('⚠️ Add at least one passenger');return;}showToast('⚡ Autofill triggered! (Open IRCTC page)');});
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+let tt=null;
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200);}
+</script>
+</body>
+</html>

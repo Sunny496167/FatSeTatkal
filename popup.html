@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jhatkal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app-shell">
+
+    <!-- ░░ NOISE OVERLAY ░░ -->
+    <div class="noise-overlay"></div>
+
+    <!-- ░░ GLOW ORBS ░░ -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- ══════════════════════════════════════
+         HEADER
+    ══════════════════════════════════════ -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <span class="brand-icon">⚡</span>
+          <div class="brand-text">
+            <h1 class="brand-name">Jhatkal</h1>
+            <p class="brand-sub">Tatkal helper for IRCTC</p>
+          </div>
+        </div>
+
+        <div class="ac-toggle-wrap">
+          <span class="toggle-label">Non-AC</span>
+          <button class="ac-toggle" id="acToggle" aria-label="Toggle AC / Non-AC" role="switch" aria-checked="false">
+            <span class="toggle-knob"></span>
+          </button>
+          <span class="toggle-label" id="acLabel">AC</span>
+        </div>
+      </div>
+
+      <!-- Timer block -->
+      <div class="timer-block">
+        <div class="timer-labels">
+          <span class="timer-title">Tatkal Opens In</span>
+          <span class="timer-live" id="timerDisplay">--:--:--</span>
+        </div>
+        <div class="timer-bar-wrap">
+          <div class="timer-bar" id="timerBar"></div>
+        </div>
+        <p class="timer-hint" id="timerHint">AC opens at 10:00 AM · Non-AC at 11:00 AM</p>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════
+         STATUS BAR
+    ══════════════════════════════════════ -->
+    <div class="status-bar" id="statusBar">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text" id="statusText">Checking IRCTC page…</span>
+      <span class="speed-badge" id="speedBadge">⚡ &lt;1s fill</span>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         TABS
+    ══════════════════════════════════════ -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="routes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        Routes
+      </button>
+      <button class="tab-btn" data-tab="passengers">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0 1 13 0"/></svg>
+        Passengers
+      </button>
+      <div class="tab-slider" id="tabSlider"></div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SCROLL CONTENT AREA
+    ══════════════════════════════════════ -->
+    <div class="content-area">
+
+      <!-- ── ROUTES TAB ── -->
+      <section class="tab-panel active" id="panel-routes">
+
+        <div class="glass-card form-card">
+          <h3 class="card-title">Journey Details</h3>
+
+          <div class="field-group">
+            <label class="field-label">Travel Date</label>
+            <input type="date" class="field-input" id="travelDate" />
+          </div>
+
+          <div class="field-row">
+            <div class="field-group autocomplete-wrap">
+              <label class="field-label">From Station</label>
+              <input type="text" class="field-input" id="fromStation" placeholder="e.g. NDLS" autocomplete="off" maxlength="5" />
+              <ul class="autocomplete-list" id="fromList"></ul>
+            </div>
+
+            <div class="swap-btn-wrap">
+              <button class="swap-btn" id="swapBtn" title="Swap stations">⇌</button>
+            </div>
+
+            <div class="field-group autocomplete-wrap">
+              <label class="field-label">To Station</label>
+              <input type="text" class="field-input" id="toStation" placeholder="e.g. CSTM" autocomplete="off" maxlength="5" />
+              <ul class="autocomplete-list" id="toList"></ul>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Train Class</label>
+            <select class="field-input" id="trainClass">
+              <option value="1A">1A – First AC</option>
+              <option value="2A">2A – Second AC</option>
+              <option value="3A" selected>3A – Third AC</option>
+              <option value="3E">3E – Third AC Economy</option>
+              <option value="SL">SL – Sleeper</option>
+              <option value="CC">CC – Chair Car</option>
+              <option value="2S">2S – Second Sitting</option>
+            </select>
+          </div>
+
+          <button class="primary-btn save-route-btn" id="saveRouteBtn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Route
+          </button>
+        </div>
+
+        <!-- Saved Routes List -->
+        <div class="section-header">
+          <h3 class="section-title">Saved Routes</h3>
+          <span class="route-count badge" id="routeCount">0</span>
+        </div>
+
+        <div id="savedRoutesList">
+          <div class="empty-state" id="routesEmptyState">
+            <div class="empty-icon">🛤️</div>
+            <p class="empty-title">No routes saved yet</p>
+            <p class="empty-sub">Add your frequent journey above</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ── PASSENGERS TAB ── -->
+      <section class="tab-panel" id="panel-passengers">
+
+        <!-- Template selector -->
+        <div class="template-row">
+          <button class="template-chip active" data-template="solo">🧍 Solo</button>
+          <button class="template-chip" data-template="family">👨‍👩‍👧 Family</button>
+          <button class="template-chip" data-template="friends">👥 Friends</button>
+        </div>
+
+        <div id="passengerList"></div>
+
+        <button class="add-passenger-btn" id="addPassengerBtn">
+          <span class="add-icon">＋</span>
+          Add Passenger
+          <span class="count-pill" id="paxCount">0 / 6</span>
+        </button>
+
+      </section>
+
+    </div><!-- /content-area -->
+
+    <!-- ══════════════════════════════════════
+         CTA BUTTON
+    ══════════════════════════════════════ -->
+    <div class="cta-wrap">
+      <button class="cta-btn" id="autofillBtn">
+        <span class="cta-icon">⚡</span>
+        <span class="cta-text">Autofill Now <em>(Tatkal Ready)</em></span>
+      </button>
+      <p class="cta-sub">Fills all details in under 1 second</p>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         FOOTER
+    ══════════════════════════════════════ -->
+    <footer class="app-footer">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      This tool only autofills data on user action. No automation of captcha, login, or payment.
+    </footer>
+
+  </div><!-- /app-shell -->
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

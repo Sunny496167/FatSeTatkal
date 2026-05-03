@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Jhatkal – Tatkal Autofill",
+  "version": "1.0.0",
+  "description": "Lightning-fast Tatkal booking autofill assistant for IRCTC. Save routes & passenger profiles, autofill in under 1 second.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://www.irctc.co.in/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "Image/icon16.png",
+      "48": "Image/icon48.png",
+      "128": "Image/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.irctc.co.in/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "Image/icon16.png",
+    "48": "Image/icon48.png",
+    "128": "Image/icon128.png"
+  }
+}
