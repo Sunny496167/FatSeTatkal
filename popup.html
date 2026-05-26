@@ -8,8 +8,38 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="popup.css" />
+    <style>
+      /* Premium theme overrides */
+      .premium {
+        --blue-glow: #ffd700; /* gold */
+        --purple-glow: #ffbf00; /* amber */
+        --teal-accent: #ffd700;
+        --pink-accent: #ffbf00;
+        --text-primary: #fff;
+        --text-secondary: #fff9e6;
+        --text-muted: #ccc;
+      }
+      .premium .brand-name {
+        background: linear-gradient(135deg, #ffd700, #ffbf00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .premium .cta-btn {
+        background: linear-gradient(135deg, #d4af37, #ffd700, #ffbf00);
+      }
+      .premium .premium-badge {
+        background: rgba(255,215,0,0.2);
+        border: 1px solid #ffd700;
+        color: #ffd700;
+        padding: 2px 6px;
+        border-radius: var(--r-sm);
+        font-size: 10px;
+        font-weight: 600;
+        margin-left: 8px;
+      }
+    </style>
 </head>
-<body>
+<body class="premium">
   <div class="app-shell">
 
     <!-- ░░ NOISE OVERLAY ░░ -->
@@ -85,6 +115,20 @@
 
       <!-- ── ROUTES TAB ── -->
       <section class="tab-panel active" id="panel-routes">
+
+          <!-- IRCTC Login (optional) -->
+          <div class="glass-card form-card">
+            <h3 class="card-title">IRCTC Login (optional)</h3>
+            <div class="field-group">
+              <label class="field-label">User ID</label>
+              <input type="text" class="field-input" id="irctcUserId" autocomplete="off" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Password</label>
+              <input type="password" class="field-input" id="irctcPassword" autocomplete="off" />
+            </div>
+            <button class="primary-btn" id="saveLoginBtn">Save Login</button>
+          </div>
 
         <div class="glass-card form-card">
           <h3 class="card-title">Journey Details</h3>
@@ -175,7 +219,7 @@
     <div class="cta-wrap">
       <button class="cta-btn" id="autofillBtn">
         <span class="cta-icon">⚡</span>
-        <span class="cta-text">Autofill Now <em>(Tatkal Ready)</em></span>
+        <span class="cta-text">Autofill Now <em>(Ready)</em></span>
       </button>
       <p class="cta-sub">Fills all details in under 1 second</p>
     </div>

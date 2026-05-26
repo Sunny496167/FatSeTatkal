@@ -23,6 +23,10 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
 
 // ─── Autofill orchestrator ────────────────────────────────────────────────────
 async function autofill(data) {
+  // Attempt login if needed; if login triggered, abort autofill for now
+  const ready = await maybeLogin();
+  if (!ready) return;
+
   const { from, to, date, cls, passengers } = data;
 
   // Fill journey details
@@ -35,17 +39,17 @@ async function autofill(data) {
 
 // ─── Fill journey section ─────────────────────────────────────────────────────
 async function fillJourneyDetails(from, to, date, cls) {
-  // From station
-  await fillStation('[placeholder*="From"]', from);
+  // From station (fallback selector list for various page variations)
+  await fillStation('[placeholder*="From"], input[id*="fromStation"], input[name*="fromStation"]', from);
   await delay(300);
 
-  // To station
-  await fillStation('[placeholder*="To"]', to);
+  // To station (fallback selector list)
+  await fillStation('[placeholder*="To"], input[id*="toStation"], input[name*="toStation"]', to);
   await delay(300);
 
-  // Date
+  // Date (fallback selector list for date inputs)
   if (date) {
-    const dateInput = document.querySelector('p-calendar input, input[placeholder*="DD/MM/YYYY"], input[id*="journey-date"]');
+    const dateInput = document.querySelector('p-calendar input, input[placeholder*="DD/MM/YYYY"], input[id*="journey-date"], input[name*="journeyDate"]');
     if (dateInput) {
       const [yr, mo, dy] = date.split('-');
       const ddmmyyyy = `${dy}/${mo}/${yr}`;
@@ -56,8 +60,8 @@ async function fillJourneyDetails(from, to, date, cls) {
     }
   }
 
-  // Train class – look for a dropdown or radio
-  const clsSelect = document.querySelector('select[formcontrolname*="class"], select[id*="journeyClass"]');
+  // Train class – look for a dropdown or radio (fallback selector list)
+  const clsSelect = document.querySelector('select[formcontrolname*="class"], select[id*="journeyClass"], select[name*="class"]');
   if (clsSelect) {
     selectOption(clsSelect, cls);
   }
@@ -89,15 +93,16 @@ async function fillPassengers(passengers) {
 }
 
 async function fillPassengerRow(idx, pax) {
-  // IRCTC uses a table with repeated rows for passengers
+  // IRCTC uses a table with repeated rows for passengers (fallback selectors for rows)
   const rows = document.querySelectorAll(
-    '.passenger-details tr[id*="psngr"], .psgn-details tr, table.pax-table tr'
+    '.passenger-details tr[id*="psngr"], .psgn-details tr, table.pax-table tr, tr[data-passenger-row]'
   );
 
-  const nameInputs   = document.querySelectorAll('input[id*="psngr_name_"], input[placeholder*="Passenger Name"]');
-  const ageInputs    = document.querySelectorAll('input[id*="psngr_age_"],  input[placeholder*="Age"]');
-  const genderSelects= document.querySelectorAll('select[id*="psngr_gender_"], select[placeholder*="Gender"]');
-  const berthSelects = document.querySelectorAll('select[id*="psngr_berth_"], select[placeholder*="Berth"]');
+  // Extend selectors for passenger inputs to cover more page variations
+  const nameInputs   = document.querySelectorAll('input[id*="psngr_name_"], input[placeholder*="Passenger Name"], input[name*="passengerName"], input[name*="name"]');
+  const ageInputs    = document.querySelectorAll('input[id*="psngr_age_"], input[placeholder*="Age"], input[name*="age"]');
+  const genderSelects= document.querySelectorAll('select[id*="psngr_gender_"], select[placeholder*="Gender"], select[name*="gender"]');
+  const berthSelects = document.querySelectorAll('select[id*="psngr_berth_"], select[placeholder*="Berth"], select[name*="berth"]');
 
   if (nameInputs[idx]) {
     setNativeValue(nameInputs[idx], pax.name.toUpperCase());
@@ -160,6 +165,31 @@ function selectOption(selectEl, value) {
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ─── Maybe login helper ───────────────────────────────────────────────────────
+async function maybeLogin() {
+  // Detect login form fields
+  const userInput = document.querySelector('input[name="userId"], input[name="loginUserId"], input[id*="userid"], input[id*="userID"], input[name="username"], input[name="user_id"]');
+  const pwdInput = document.querySelector('input[name="pwd"], input[name="password"], input[type="password"], input[id*="pwd"], input[id*="password"]');
+  if (userInput && pwdInput) {
+    // Retrieve stored credentials
+    const cred = await new Promise(resolve => {
+      chrome.storage.local.get('jhatkal_credentials', items => resolve(items.jhatkal_credentials));
+    });
+    if (cred && cred.userId && cred.password) {
+      setNativeValue(userInput, cred.userId);
+      userInput.dispatchEvent(new Event('input', { bubbles: true }));
+      setNativeValue(pwdInput, cred.password);
+      pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
+      const loginBtn = document.querySelector('button[type="submit"], input[type="submit"], button[name="Login"], input[value="Login"], button[id*="login"], button[class*="login"]');
+      if (loginBtn) loginBtn.click();
+    }
+    // Not logged in yet (login form present)
+    return false;
+  }
+  // Already logged in or no login form
+  return true;
 }
 
 // ─── Notify background that content script is alive ───────────────────────────

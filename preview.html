@@ -187,8 +187,38 @@ select.field-input option{background:#0f1628;color:var(--text-primary);}
 .autocomplete-list::-webkit-scrollbar{width:3px;}
 .autocomplete-list::-webkit-scrollbar-thumb{background:rgba(61,127,255,0.4);border-radius:99px;}
 </style>
+    <style>
+      /* Premium theme overrides */
+      .premium {
+        --blue-glow: #ffd700; /* gold */
+        --purple-glow: #ffbf00; /* amber */
+        --teal-accent: #ffd700;
+        --pink-accent: #ffbf00;
+        --text-primary: #fff;
+        --text-secondary: #fff9e6;
+        --text-muted: #ccc;
+      }
+      .premium .brand-name {
+        background: linear-gradient(135deg, #ffd700, #ffbf00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .premium .cta-btn {
+        background: linear-gradient(135deg, #d4af37, #ffd700, #ffbf00);
+      }
+      .premium .premium-badge {
+        background: rgba(255,215,0,0.2);
+        border: 1px solid #ffd700;
+        color: #ffd700;
+        padding: 2px 6px;
+        border-radius: var(--r-sm);
+        font-size: 10px;
+        font-weight: 600;
+        margin-left: 8px;
+      }
+    </style>
 </head>
-<body>
+<body class="premium">
 <div class="preview-frame">
 <div class="app-shell">
   <div class="noise-overlay"></div>

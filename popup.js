@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSaveRoute();
   initPassengers();
   initCTA();
+  initLogin();
   checkIRCTCPage();
   setDefaultDate();
 });
@@ -83,6 +84,7 @@ function loadStorage() {
   renderSavedRoutes();
   renderPassengers();
   applyACToggleUI();
+  loadCredentials();
 }
 
 function saveRoutesToStorage() {
@@ -90,6 +92,35 @@ function saveRoutesToStorage() {
 }
 function savePassengersToStorage() {
   localStorage.setItem('jhatkal_passengers', JSON.stringify(state.passengers));
+}
+
+// ─── Tabs ─────────────────────────────────────────────────────────────────
+function loadCredentials() {
+  chrome.storage.local.get('jhatkal_credentials', items => {
+    const cred = items.jhatkal_credentials;
+    if (cred) {
+      const uidEl = $('irctcUserId');
+      const pwdEl = $('irctcPassword');
+      if (uidEl) uidEl.value = cred.userId || '';
+      if (pwdEl) pwdEl.value = cred.password || '';
+    }
+  });
+}
+
+function initLogin() {
+  const saveBtn = $('saveLoginBtn');
+  if (!saveBtn) return;
+  saveBtn.addEventListener('click', () => {
+    const userId = $('irctcUserId').value.trim();
+    const password = $('irctcPassword').value;
+    if (!userId || !password) {
+      showToast('⚠️ Enter both User ID and Password');
+      return;
+    }
+    chrome.storage.local.set({ jhatkal_credentials: { userId, password } }, () => {
+      showToast('✅ Login saved!');
+    });
+  });
 }
 
 // ─── Tabs ─────────────────────────────────────────────────────────────────
